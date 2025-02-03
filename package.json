@@ -1,5 +1,5 @@
 {
-  "name": "rpm-extract",
+  "name": "@mymindstorm/rpm-extract",
   "version": "1.1.0",
   "description": "Programmatically extract files from rpm packages",
   "main": "lib/index.js",
@@ -85,6 +85,6 @@
   "files": [
     "lib"
   ],
-  "author": "Hrusikesh Panda <hrusikesh.panda@dowjones.com>",
+  "author": "Brendan Early <mymindstorm@evermiss.net>",
   "license": "ISC"
 }
