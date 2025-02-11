@@ -1,4 +1,0 @@
---recursive
---reporter min
---full-trace
---require babel-register
