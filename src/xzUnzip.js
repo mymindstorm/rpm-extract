@@ -1,6 +1,6 @@
 import pify from "pify";
-import xz from "xz";
 import fs from "fs";
+import lzma from "lzma-native";
 
 const XZ_MAGIC = [0xfd, 0x37, 0x7a, 0x58, 0x5a, 0x00];
 const readFileAsync = pify(fs.readFile);
@@ -19,7 +19,5 @@ export default async (file) => {
     throw new Error("Not an xz archive!");
   }
 
-  const decompressor = new xz.Decompressor();
-
-  return decompressor.updatePromise(data.slice(idx));
+  return lzma.LZMA().decompress(data.slice(idx));
 };
