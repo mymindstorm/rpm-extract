@@ -28,6 +28,7 @@ node_modules
 
 # generated es5 artifacts
 lib
+dist
 
 # coverage directory for nyc
 .nyc_output
