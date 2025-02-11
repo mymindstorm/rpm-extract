@@ -12,8 +12,10 @@ async function extract(file) {
 
   let files;
   if (await isGzRpm(file)) {
+    console.log("HIT! A");
     files = await gzUnzip(file).then(cpioExtract);
   } else if (await isXzRpm(file)) {
+    console.log("HIT! B");
     files = await xzUnzip(file).then(cpioExtract);
   } else {
     throw new Error("Unsupported compression type!");

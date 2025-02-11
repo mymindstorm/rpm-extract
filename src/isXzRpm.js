@@ -7,6 +7,7 @@ const RPM_XZ_MAGIC = [
 const readFileAsync = pify(fs.readFile);
 
 export default async (file) => {
+  console.log("XZ");
   let data;
   if (typeof file === "string") {
     data = await readFileAsync(file);
@@ -15,6 +16,7 @@ export default async (file) => {
   }
 
   const idx = data.indexOf(Buffer.from(RPM_XZ_MAGIC));
+  console.log("IDX: " + idx);
 
   return idx !== -1;
 };
