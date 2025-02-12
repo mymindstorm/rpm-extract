@@ -1,7 +1,8 @@
-import * as esbuild from "esbuild";
+import { dtsPlugin } from "esbuild-plugin-d.ts";
+import { build } from "esbuild";
 
-await esbuild.build({
-  entryPoints: ["src/index.js"],
+await build({
+  entryPoints: ["src/index.ts"],
   bundle: true,
   minify: true,
   sourcemap: true,
@@ -10,4 +11,5 @@ await esbuild.build({
   loader: {
     ".node": "file",
   },
+  plugins: [dtsPlugin()],
 });
