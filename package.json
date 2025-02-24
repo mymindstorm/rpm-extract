@@ -2,9 +2,10 @@
   "name": "@mymindstorm/rpm-extract",
   "version": "1.2.2",
   "description": "Programmatically extract files from rpm packages",
-  "main": "lib/index.js",
+  "main": "lib/RPMExtractorStream.js",
+  "module": "lib/RPMExtractorStream.js",
   "scripts": {
-    "compile": "rm -rf lib && prettier . --write && eslint . && node esbuild.mjs",
+    "build": "rm -rf lib && prettier . --write && eslint . && tsc",
     "prepublish": "npm run compile"
   },
   "dependencies": {
@@ -16,6 +17,7 @@
   "devDependencies": {
     "@eslint/js": "^9.20.0",
     "@types/concat-stream": "^2.0.3",
+    "@types/lzma-native": "^4.0.4",
     "@types/node": "^22.13.1",
     "esbuild": "^0.25.0",
     "esbuild-plugin-d.ts": "^1.3.1",

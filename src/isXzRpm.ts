@@ -3,5 +3,9 @@ const RPM_XZ_MAGIC = Buffer.from([
 ]);
 
 export default (buf: Buffer) => {
-  return buf.indexOf(RPM_XZ_MAGIC);
+  const idx = buf.indexOf(RPM_XZ_MAGIC);
+
+  // The + 4 offsets the four bytes from the RPM data structure.
+  // i.e. [0x00, 0x00, 0x00, 0x10] are from RPM, not xz.
+  return idx === -1 ? -1 : idx + 4;
 };
