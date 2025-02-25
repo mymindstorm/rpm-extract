@@ -9,7 +9,7 @@ import stream from "cpio-stream";
 import concat from "concat-stream";
 
 export interface ExtractedFile {
-  data: Buffer;
+  stream: PassThrough;
   mode: string;
   mtime: string;
   path: string;
@@ -37,7 +37,7 @@ export class RPMExtractorStream extends Transform {
     super({ objectMode: true });
 
     this.decompressStream = stream.extract();
-    this.decompressStream.on("entry", this.handleCpioEntry);
+    this.decompressStream.on("entry", this.handleCpioEntry.bind(this));
   }
 
   _transform(
@@ -69,10 +69,10 @@ export class RPMExtractorStream extends Transform {
 
       if (!this.decompressor) return callback();
 
-      this.decompressor.pipe(this.decompressStream);
       this.decompressor.write(this.buffer.subarray(this.decompressorOffset));
       this.buffer = Buffer.alloc(0); // Not sure if this helps gc get rid of the buffer
-      this.pipe(this.decompressor);
+    } else {
+      this.decompressor.write(chunk);
     }
 
     return callback();
@@ -83,20 +83,14 @@ export class RPMExtractorStream extends Transform {
     stream: PassThrough,
     callback: () => void,
   ) {
-    stream.pipe(
-      concat((data: Buffer) => {
-        concat((content) => {
-          this.emitFile({
-            data: content,
-            mode: header.mode,
-            mtime: header.mtime,
-            path: header.name,
-            type: header.type,
-            linkname: header?.linkname,
-          });
-        });
-      }),
-    );
+    this.emitFile({
+      stream: stream,
+      mode: header.mode,
+      mtime: header.mtime,
+      path: header.name,
+      type: header.type,
+      linkname: header?.linkname,
+    });
   }
 
   private emitFile(file: ExtractedFile): void {
